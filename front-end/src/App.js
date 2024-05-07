@@ -46,7 +46,15 @@ class App extends Component {
 				description: this.state.description,
 			})
 			.then((res) => {
+				const newTasks = [...this.state.tasks]
+				const newTask = {
+					name: this.state.name,
+					description: this.state.description
+				};
+				newTasks.push(newTask)
+
 				this.setState({
+					tasks: newTasks,
 					name: "",
 					description: "",
 				});
@@ -72,30 +80,30 @@ render() {
 			<hr />
 			<Row>
 				<Col md={{ span: 5, offset: 4 }}>
-          <Form>
-            <Form.Group className="mb-3" controlId="inputFormName">
-              <Form.Label>Name</Form.Label>
-              <Form.Control
-                type="text"
-                placeholder="add task . . . "
-                size="lg"
-                value={this.state.name} name="name"
-                onChange={this.handleInput}
-              />
-            </Form.Group>
-            <Form.Group>
-              <Form.Label>Description</Form.Label>
-              <Form.Control
-                as="textarea"
-                placeholder="describe the task . . . "
-                size="lg"
-                value={this.state.description}
-                name="description"
-                onChange={this.handleInput}
-                type="textarea"
-                rows={3}
-              />
-            </Form.Group>
+					<Form>
+						<Form.Group className="mb-3" controlId="inputFormName">
+						<Form.Label>Name</Form.Label>
+						<Form.Control
+							type="text"
+							placeholder="add task . . . "
+							size="lg"
+							value={this.state.name} name="name"
+							onChange={this.handleInput}
+						/>
+						</Form.Group>
+						<Form.Group>
+						<Form.Label>Description</Form.Label>
+						<Form.Control
+							as="textarea"
+							placeholder="describe the task . . . "
+							size="lg"
+							value={this.state.description}
+							name="description"
+							onChange={this.handleInput}
+							type="textarea"
+							rows={3}
+						/>
+						</Form.Group>
 						<Form.Group>
 							<Button
 								variant="dark"
@@ -105,7 +113,7 @@ render() {
 								ADD
 							</Button>
 						</Form.Group>
-          </Form>
+					</Form>
 				</Col>
 			</Row>
 			<Row>

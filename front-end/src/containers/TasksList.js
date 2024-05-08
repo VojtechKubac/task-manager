@@ -18,7 +18,7 @@ class TasksList extends PureComponent {
 
   componentWillReceiveProps(newProps) {
     // TODO: authentication
-    this.props.getTasks();
+    //this.props.getTasks();
   };
 
   render() {
@@ -40,7 +40,6 @@ class TasksList extends PureComponent {
         <Row>
           <Col md={{ span: 5, offset: 4 }}>
             <ListGroup>
-              {/*{this.state.tasks.map((task, index) => { */}
               {this.props.tasks.map((task, index) => {
                 return (
                   <div key = {index} >

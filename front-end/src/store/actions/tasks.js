@@ -1,4 +1,4 @@
-import axios from "axios";
+import axiosInstance from "./axiosConfig";
 import * as actionTypes from "./actionTypes";
 
 const getTasksListStart = () => {
@@ -22,19 +22,14 @@ const getTasksListSuccess = (tasks) => {
 };
 
 // TODO: do authentication
-export const getTasks = () => {
-  return dispatch => {
+export const getTasks = () => async (dispatch) => {
+  try {
     dispatch(getTasksListStart());
 
-    axios
-      .get("http://localhost:8000/tasks/")
-      //.get("http://127.0.0.1:8000/tasks/")
-      .then((res) => {
-        const tasks = res.data;
-        dispatch(getTasksListSuccess(tasks));
-      })
-      .catch((err) => {
-        dispatch(getTasksListFail());
-      });
-    };
+    const res = await axiosInstance.get("/tasks/");
+    const tasks = res.data;
+    dispatch(getTasksListSuccess(tasks));
+  } catch (err) {
+    dispatch(getTasksListFail());
+  }
   };

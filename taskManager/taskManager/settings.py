@@ -25,7 +25,26 @@ SECRET_KEY = 'django-insecure-ch%r++$wjh!pa$#&qmgk-xo%@v9_yb177!4moe9(r8u=r0o&47
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://localhost:3000',
+    ]
+
+ALLOWED_HOSTS = [
+    '127.0.0.1',
+    'localhost',
+     'http://localhost:3000',
+    ]
+
+CORS_ORIGIN_WHITELIST = [
+    'http://127.0.0.1:8000',
+    'http://localhost:8000',
+    'http://localhost:3000',
+    ]
+
 
 
 # Application definition
@@ -39,11 +58,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taskManagerAPI',
     'rest_framework',
-    'rest_framework.authtoken',
-    'djoser',
+    #'rest_framework.authtoken',
+    #'djoser',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -51,7 +72,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'taskManager.urls'
@@ -151,3 +171,15 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOW_HEADERS = ['*']
+
+LOGIN_REDIRECT_URL = '/tasks'
+
+# CSRF Token Configuration
+CSRF_COOKIE_NAME = "csrftoken"
+CSRF_HEADER_NAME = "X-CSRFToken"
+# CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
+CSRF_COOKIE_SECURE = False
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_SAMESITE = None

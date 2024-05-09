@@ -27,12 +27,12 @@ import { Provider } from "react-redux";
 import { thunk } from "redux-thunk";
 
 import tasksReducer from "./store/reducers/tasks";
-//import { reducer as tasksReducer } from "./store/reducers/tasks";
+import authReducer from "./store/reducers/auth";
 
 const composeEnhances = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
-  //auth: authReducer,
+  auth: authReducer,
   tasks: tasksReducer
 });
 

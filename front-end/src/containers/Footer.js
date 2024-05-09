@@ -11,9 +11,11 @@ const Footer = () => {
           </Col>
           <Col md={6} className="text-md-right">
             <ul className="list-inline mb-0">
+              {/*
               <li className="list-inline-item"><a href="#">Privacy Policy</a></li>
               <li className="list-inline-item"><a href="#">Terms of Service</a></li>
               <li className="list-inline-item"><a href="#">Contact</a></li>
+  */}
             </ul>
           </Col>
         </Row>

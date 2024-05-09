@@ -1,15 +1,18 @@
 import React, { Component } from "react";
+import { BrowserRouter as Router } from "react-router-dom";
 
 import "bootstrap/dist/css/bootstrap.css";
-import TasksList from "./containers/TasksList";
-
+import BaseRouter from "./routes";
+import Layout from "./containers/Layout";
 
 class App extends Component {
 	render () {
 		return (
-			<>
-			<TasksList/>
-			</>
+			<Router>
+		   <Layout {...this.props}>
+					<BaseRouter/>
+				</Layout>
+			</Router>
 		);
 	}
 }

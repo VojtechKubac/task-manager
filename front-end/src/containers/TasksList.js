@@ -1,4 +1,5 @@
 import React, { Component, PureComponent } from "react";
+//import React, { Component } from "react";
 import { connect } from "react-redux";
 import * as actions from "../store/actions/tasks";
 

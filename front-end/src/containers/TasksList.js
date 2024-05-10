@@ -1,12 +1,11 @@
-import React, { useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { createSelector } from "reselect";
-import * as actions from "../store/actions/tasks";
-
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { createSelector } from 'reselect';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
+import * as actions from "../store/actions/tasks";
 
 const selectToken = state => state.auth.token;
 const selectTasks = state => state.tasks.tasks;

@@ -19,11 +19,14 @@ reportWebVitals();
 
 
 import React from "react";
-import ReactDOM from "react-dom";
+import ReactDOM from "react-dom/client";
 import App from "./App";
 //import registerServiceWorker from "./registerServiceWorker";
 import { createStore, compose, applyMiddleware, combineReducers } from "redux";
+//import configureStore from 'redux';
+//import legacy_createStore from 'redux';
 import { Provider } from "react-redux";
+//import { composeWithDevTools } from 'redux-devtools-extension'; // Import composeWithDevTools from redux-devtools-extension
 import { thunk } from "redux-thunk";
 
 import tasksReducer from "./store/reducers/tasks";
@@ -36,6 +39,9 @@ const rootReducer = combineReducers({
   tasks: tasksReducer
 });
 
+//const store = configureStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
+//const store = configureStore(rootReducer, composeEnhances(applyMiddleware(thunk)));
+//const store = legacy_createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));
 const store = createStore(rootReducer, composeEnhances(applyMiddleware(thunk)));
 
 const app = (
@@ -44,18 +50,12 @@ const app = (
   </Provider>
 );
 
-ReactDOM.render(app, document.getElementById("root"));
+//ReactDOM.render(app, document.getElementById("root"));
 //registerServiceWorker();
 
 
 
 
 
-/*
 const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-*/
+root.render(app);

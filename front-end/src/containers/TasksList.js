@@ -14,7 +14,7 @@ import ListGroup from "react-bootstrap/ListGroup";
 class TasksList extends PureComponent {
   componentDidMount() {
     // TODO: authentication
-    this.props.getTasks();
+      this.props.getTasks(this.props.token);
   };
 
   componentWillReceiveProps(newProps) {
@@ -78,11 +78,9 @@ TODO:
   }
 }
 
-
 const mapStateToProps = state => {
   return {
-    // TODO:
-    //token: state.auth.token,
+    token: state.auth.token,
     tasks: state.tasks.tasks,
     loading: state.tasks.loading
   };

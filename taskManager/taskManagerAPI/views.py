@@ -19,7 +19,7 @@ from rest_framework.decorators import throttle_classes
 
 # Create your views here.
 # TODO: add authentication
-#@permission_classes([IsAuthenticated])
+@permission_classes([IsAuthenticated])
 class TaskView(APIView):
     serializer_class = TaskSerializer
 

@@ -45,11 +45,12 @@ export const authLogin = (username, password) => async (dispatch) => {
     });
 
     const user = {
-      token: res.data.key,
+      token: res.data.auth_token,
       username,
-      userId: res.data.user,
+      //userId: res.data.user,
       expirationDate: new Date(new Date().getTime() + 3600 * 1000)
     };
+
     localStorage.setItem("user", JSON.stringify(user));
     dispatch(authSuccess(user));
     dispatch(checkAuthTimeout(3600));
@@ -78,7 +79,7 @@ export const authSignup = (
         const user = {
           token: res.data.key,
           username,
-          userId: res.data.user,
+          //userId: res.data.user,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000)
         };
         localStorage.setItem("user", JSON.stringify(user));

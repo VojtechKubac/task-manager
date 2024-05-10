@@ -22,9 +22,11 @@ const getTasksListSuccess = (tasks) => {
 };
 
 // TODO: do authentication
-export const getTasks = () => async (dispatch) => {
+export const getTasks = (token) => async (dispatch) => {
   try {
     dispatch(getTasksListStart());
+
+    axiosInstance.defaults.headers.common['Authorization'] = 'Token ' + token;
 
     const res = await axiosInstance.get("/tasks/");
     const tasks = res.data;

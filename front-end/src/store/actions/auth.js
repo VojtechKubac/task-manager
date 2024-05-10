@@ -36,45 +36,21 @@ export const checkAuthTimeout = expirationTime => {
   };
 };
 
-const getCsrfToken = async () => {
-  try {
-    const res = await axiosInstance.get('/api-auth/login/');
-    //alert(axiosInstance.defaults.headers.head);
-    //alert(axiosInstance.defaults.headers['X-CSRFToken']);
-    //alert(axiosInstance.defaults.headers['set-cookie']);
-    //alert(res.headers['set-cookie']);
-    //alert(res.headers);
-    //alert(Object.keys(res.headers));
-    //console.log(res.headers['set-cookie']);
-    console.log(res);
-    console.log(axiosInstance);
-    alert(res.headers['set-cookie']);
-    alert(axiosInstance.defaults.headers['X-CSRFToken']);
-    return axiosInstance.defaults.headers['X-CSRFToken'];
-  } catch (error) {
-    console.error('CSRF token error:', error);
-    throw error;
-  }
-};
-
 export const authLogin = (username, password) => async (dispatch) => {
   try {
     dispatch(authStart());
-
-    const csrfToken = await getCsrfToken();
-    axiosInstance.defaults.headers['X-CSRFToken'] = csrfToken;
-
-    const res = await axiosInstance.post('/api-auth/login/', {
+    const res = await axiosInstance.post('/auth/token/login/', {
       username: username,
       password: password
     });
 
     const user = {
-      token: res.data.key,
+      token: res.data.auth_token,
       username,
-      userId: res.data.user,
+      //userId: res.data.user,
       expirationDate: new Date(new Date().getTime() + 3600 * 1000)
     };
+
     localStorage.setItem("user", JSON.stringify(user));
     dispatch(authSuccess(user));
     dispatch(checkAuthTimeout(3600));
@@ -82,33 +58,6 @@ export const authLogin = (username, password) => async (dispatch) => {
     dispatch(authFail(error));
   };
 };
-
-/*
-export const authLogin = (username, password) => {
-  return dispatch => {
-    dispatch(authStart());
-    axiosInstance
-      .post("/api-auth/login/", {
-        username: username,
-        password: password
-      })
-      .then(res => {
-        const user = {
-          token: res.data.key,
-          username,
-          userId: res.data.user,
-          expirationDate: new Date(new Date().getTime() + 3600 * 1000)
-        };
-        localStorage.setItem("user", JSON.stringify(user));
-        dispatch(authSuccess(user));
-        dispatch(checkAuthTimeout(3600));
-      })
-      .catch(err => {
-        dispatch(authFail(err));
-      });
-  };
-};
-*/
 
 export const authSignup = (
   username,
@@ -130,7 +79,7 @@ export const authSignup = (
         const user = {
           token: res.data.key,
           username,
-          userId: res.data.user,
+          //userId: res.data.user,
           expirationDate: new Date(new Date().getTime() + 3600 * 1000)
         };
         localStorage.setItem("user", JSON.stringify(user));

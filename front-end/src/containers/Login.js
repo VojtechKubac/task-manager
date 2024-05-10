@@ -1,14 +1,28 @@
 import React, { Component } from "react";
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+import Button from 'react-bootstrap/Button';
 import { connect } from "react-redux";
 
 import * as actions from "../store/actions/auth";
 
 class Login extends Component {
+  state = {
+    username: '',
+    password: ''
+  };
+
+  handleInputChange = (e) => {
+		this.setState({
+			[e.target.name]: e.target.value,
+		});
+  }
+
   handleSubmit = (e) => {
     e.preventDefault();
 
-    this.props.onAuth(this.props.userName, this.props.password);
+    this.props.onAuth(this.state.username, this.state.password);
     //this.props.history.push("/");
   };
 
@@ -18,7 +32,6 @@ class Login extends Component {
       errorMessage = <p>{this.props.error.message}</p>;
     }
 
-    //const { getFieldDecorator } = this.props.form;
     return (
       <>
         {errorMessage}
@@ -48,7 +61,9 @@ class Login extends Component {
                       size="lg"
                       maxLength={30}
                       style={{ maxWidth: '300px' }}
-                      value={this.props.userName}
+                      value={this.state.userName}
+                      name="username"
+                      onChange={this.handleInputChange}
                     />
                   </Col>
               </Form.Group>
@@ -61,7 +76,9 @@ class Login extends Component {
                       size="lg"
                       maxLength={30}
                       style={{ maxWidth: '300px' }}
-                      value={this.props.password}
+                      value={this.state.password}
+                      name="password"
+                      onChange={this.handleInputChange}
                     />
                   </Col>
               </Form.Group>
@@ -74,35 +91,6 @@ class Login extends Component {
 
       )}
       </>
-
-
-      /*
-    <Form onSubmit={handleSubmit}>
-      <Form.Group controlId="formBasicEmail">
-        <Form.Label>Email address</Form.Label>
-        <Form.Control
-          type="email"
-          placeholder="Enter email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-      </Form.Group>
-
-      <Form.Group controlId="formBasicPassword">
-        <Form.Label>Password</Form.Label>
-        <Form.Control
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-      </Form.Group>
-
-      <Button variant="primary" type="submit">
-        Submit
-      </Button>
-    </Form>
-    */
     );
   };
 };

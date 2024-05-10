@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,13 +26,6 @@ SECRET_KEY = 'django-insecure-ch%r++$wjh!pa$#&qmgk-xo%@v9_yb177!4moe9(r8u=r0o&47
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = []
-
-CSRF_TRUSTED_ORIGINS = [
-    'http://127.0.0.1:8000',
-    'http://localhost:8000',
-    'http://localhost:3000',
-    ]
 
 ALLOWED_HOSTS = [
     '127.0.0.1',
@@ -58,9 +52,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'taskManagerAPI',
     'rest_framework',
-    #'rest_framework.authtoken',
-    #'djoser',
+    'rest_framework.authtoken',
+    'djoser',
     'corsheaders',
+    # 'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt.token_blacklist', # to black list refresh tokens so new access tokens cannot be generated
 ]
 
 MIDDLEWARE = [
@@ -155,6 +151,7 @@ REST_FRAMEWORK = {
     ],
 
     'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.SessionAuthentication',
     ],
@@ -170,16 +167,21 @@ REST_FRAMEWORK = {
 
 }
 
-CORS_ORIGIN_ALLOW_ALL = True
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5)
+}
+
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOW_HEADERS = ['*']
 
-LOGIN_REDIRECT_URL = '/tasks'
 
-# CSRF Token Configuration
-CSRF_COOKIE_NAME = "csrftoken"
-CSRF_HEADER_NAME = "X-CSRFToken"
-# CSRF_TRUSTED_ORIGINS = ["http://localhost:3000"]
-CSRF_COOKIE_SECURE = False
-CSRF_COOKIE_HTTPONLY = False
-SESSION_COOKIE_SAMESITE = None
+CORS_ALLOW_HEADERS = [
+    'accept',
+    'accept-encoding',
+    'authorization',
+    'content-type',
+    'dnt',
+    'origin',
+    'user-agent',
+    'x-csrftoken',
+    'x-requested-with',
+]

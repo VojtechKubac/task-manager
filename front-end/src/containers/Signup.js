@@ -8,7 +8,6 @@ import { connect } from "react-redux";
 
 import * as actions from "../store/actions/auth";
 
-//const Signup = ({ loading, error, onAuth }) => {
 const Signup = ({ onAuth }) => {
   const [formData, setFormData] = useState({
       username: '',
@@ -25,30 +24,7 @@ const Signup = ({ onAuth }) => {
       ...formData,
       [e.target.name]: e.target.value,
     });
-  }
-
-  const compareToFirstPassword = (rule, value, callback) => {
-    const form = this.props.form;
-    if (value && value !== form.getFieldValue("password1")) {
-      callback("Passwords differ");
-    } else {
-      callback();
-    }
   };
-
-  /*
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    try {
-      const res = onAuth(formData.username, formData.password);
-      console.log(res)
-      window.location.href = '/'
-    } catch (e)
-    {
-    }
-  };
-*/
-
 
   const handleSubmit = (event) => {
     console.log('handle submit')
@@ -67,7 +43,6 @@ const Signup = ({ onAuth }) => {
       // Passwords match, proceed with form submission or further processing
       setError('');
       console.log('form inputs ok')
-      // Add your logic here
       try {
         const res = onAuth(formData.username, formData.email, formData.password1);
         console.log(res)
@@ -91,7 +66,6 @@ const Signup = ({ onAuth }) => {
       >
       SIGN UP
       </Row>
-
 
       <hr />
       <Form onSubmit={handleSubmit} className="login-form">

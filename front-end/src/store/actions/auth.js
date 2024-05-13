@@ -73,7 +73,8 @@ export const authSignup = (
         email,
         password,
       };
-    const res = await axiosInstance.post("/users/", user)
+    //const res = await axiosInstance.post("/users/", user)
+    await axiosInstance.post("/users/", user)
 
     localStorage.setItem("user", JSON.stringify(user));
     dispatch(authSuccess(user));

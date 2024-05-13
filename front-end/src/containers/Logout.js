@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import Container from "react-bootstrap/esm/Container";
-import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
@@ -73,16 +72,12 @@ const Logout = ({onLogout }) => {
   );
 };
 
-const mapStateToProps = state => ({
-    user: state.auth.user,
-});
-
 const mapDispatchToProps = dispatch => ({
     onLogout: () =>
       dispatch(actions.logout())
 });
 
 export default connect(
-  null, //mapStateToProps,
+  null,
   mapDispatchToProps
 )(Logout);

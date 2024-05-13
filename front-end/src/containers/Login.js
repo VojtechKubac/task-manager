@@ -21,9 +21,9 @@ const Login = ({ loading, error, onAuth }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      const res = onAuth(formData.username, formData.password);
-      console.log(res)
-      window.location.href = '/'
+      onAuth(formData.username, formData.password);
+      //const res = onAuth(formData.username, formData.password);
+      //window.location.href = '/'
     } catch (e)
     {
     }

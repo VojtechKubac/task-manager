@@ -1,100 +1,81 @@
-import React, { Component, PureComponent } from "react";
-//import React, { Component } from "react";
-import { connect } from "react-redux";
-import * as actions from "../store/actions/tasks";
-
-import "bootstrap/dist/css/bootstrap.css";
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { createSelector } from 'reselect';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-//import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
+import * as actions from "../store/actions/tasks";
 
-//class TasksList extends Component {
-class TasksList extends PureComponent {
-  componentDidMount() {
-    // TODO: authentication
-    this.props.getTasks();
-  };
+const selectToken = state => state.auth.token;
+const selectTasks = state => state.tasks.tasks;
+//const selectLoading = state => state.tasks.loading;
 
-  componentWillReceiveProps(newProps) {
-    // TODO: authentication
-    //this.props.getTasks();
-  };
+// create selector with memoization to prevent unncessary operations
+const getTasksList = createSelector(
+  [selectToken, selectTasks/*, selectLoading*/],
+  (token, tasks/*, loading*/) => ({
+    token,
+    tasks,
+    //loading,
+  })
+);
 
-  render() {
-    return (
-      <Container>
-        <Row
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            fontSize: "3rem",
-            fontWeight: "bolder",
-          }}
-        >
-          TASK LIST
-        </Row>
+const TasksList = () => {
+  const dispatch = useDispatch();
 
-        <hr />
-        <Row>
-          <Col md={{ span: 5, offset: 4 }}>
-            <ListGroup>
-              {this.props.tasks.map((task, index) => {
-                return (
-                  <div key = {index} >
-                    <ListGroup.Item
-                      variant="dark"
-                      action
-                      style={{display:"flex",
-                          justifyContent:'space-between'
-                        }}
-                    >
-                    {task.name}
-                    <span>
-{/*
-TODO:
-                      <Button style={{marginRight:"10px"}}
-                        variant = "light"
-                        onClick={() => this.deleteItem(task.id)}>
-                        Delete
-                      </Button>
-                      <Button variant = "light"
-                        onClick={() => this.editItem(index)}>
-                        Edit
-                      </Button>
-            */}
-                    </span>
-                    </ListGroup.Item>
-                  </div>
-                );
-              })}
-            </ListGroup>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-}
+  const { token, tasks/*, loading*/ } = useSelector(getTasksList);
 
+  useEffect(() => {
+    if (token) {
+      localStorage.setItem('authToken', token);
+    }
+  }, [token]);
 
-const mapStateToProps = state => {
-  return {
-    // TODO:
-    //token: state.auth.token,
-    tasks: state.tasks.tasks,
-    loading: state.tasks.loading
-  };
+  useEffect(() => {
+    const storedToken = localStorage.getItem('authToken');
+    if (storedToken) {
+      dispatch(actions.getTasks(storedToken));
+    }
+  }, [dispatch]);
+
+  return (
+    <Container>
+      <Row
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontSize: "3rem",
+          fontWeight: "bolder",
+        }}
+      >
+        TASK LIST
+      </Row>
+
+      <hr />
+      <Row>
+        <Col md={{ span: 5, offset: 4 }}>
+          <ListGroup>
+            {tasks.map((task, index) => (
+              <div key={index}>
+                <ListGroup.Item
+                  variant="dark"
+                  action
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                >
+                  {task.name}
+                </ListGroup.Item>
+              </div>
+            ))}
+          </ListGroup>
+        </Col>
+      </Row>
+    </Container>
+  );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    getTasks: token => dispatch(actions.getTasks(token))
-  };
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TasksList);
+export default TasksList;

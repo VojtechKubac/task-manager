@@ -1,4 +1,4 @@
-import React, { useState, Component } from "react";
+import React, { useState } from "react";
 import Container from "react-bootstrap/Container";
 import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
@@ -20,7 +20,13 @@ const Login = ({ loading, error, onAuth }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAuth(formData.username, formData.password);
+    try {
+      const res = onAuth(formData.username, formData.password);
+      console.log(res)
+      window.location.href = '/'
+    } catch (e)
+    {
+    }
   };
 
   return (

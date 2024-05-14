@@ -164,4 +164,3 @@ node_modules
 **/__pycache__
 **/migrations
 package-lock.json
-Pipfile.lock

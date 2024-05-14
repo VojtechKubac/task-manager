@@ -30,7 +30,8 @@ DEBUG = True
 ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
-     'http://localhost:3000',
+    'http://localhost:3000',
+    '0.0.0.0',
     ]
 
 CORS_ORIGIN_WHITELIST = [

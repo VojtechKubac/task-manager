@@ -9,6 +9,8 @@ django-restframework = "*"
 django-cors-headers = "*"
 djangorestframework = "*"
 djoser = "*"
+django-pytest = "*"
+pytest-cov = "*"
 
 [dev-packages]
 

@@ -3,8 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^5.17.0",
-    "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
@@ -22,7 +20,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --watchAll --coverage",
+    "test": "react-scripts test --watchAll --coverage --detectOpenHandles",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -44,9 +42,18 @@
     ]
   },
   "devDependencies": {
-    "@testing-library/user-event": "^14.5.2"
+    "@babel/plugin-proposal-private-property-in-object": "^7.16.7",
+    "@testing-library/jest-dom": "^6.4.5",
+    "@testing-library/react": "^15.0.7",
+    "@testing-library/user-event": "^14.5.2",
+    "redux-mock-store": "^1.5.4"
   },
   "jest": {
-    "transformIgnorePatterns": ["node_modules\/(?!axios)"]
+    "transformIgnorePatterns": [
+      "node_modules/(?!axios)"
+    ],
+    "moduleNameMapper": {
+      "\\.(css|less)$": "<rootDir>/__mocks__/styleMock.js"
+    }
   }
 }

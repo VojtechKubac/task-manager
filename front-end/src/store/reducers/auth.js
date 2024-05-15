@@ -1,7 +1,9 @@
 import * as actionTypes from "../actions/actionTypes";
 import { updateObject } from "../utility";
 
-const initialState = {
+const storedState = JSON.parse(localStorage.getItem('reduxState'));
+
+const initialState = storedState ? storedState : {
   token: null,
   username: null,
   //userId: null,
@@ -35,23 +37,35 @@ const authFail = (state, action) => {
 
 const authLogout = (state, action) => {
   return updateObject(state, {
-    token: null
+    token: null,
+    username: null
   });
 };
 
 const reducer = (state = initialState, action) => {
+  let updatedState;
   switch (action.type) {
     case actionTypes.AUTH_START:
-      return authStart(state, action);
+      updatedState = authStart(state, action);
+      break;
     case actionTypes.AUTH_SUCCESS:
-      return authSuccess(state, action);
+      updatedState = authSuccess(state, action);
+      break;
     case actionTypes.AUTH_FAIL:
-      return authFail(state, action);
+      updatedState = authFail(state, action);
+      break;
     case actionTypes.AUTH_LOGOUT:
-      return authLogout(state, action);
+      updatedState = authLogout(state, action);
+      break;
     default:
-      return state;
+      updatedState = state;
   }
+
+  // Store the updated state in localStorage
+  localStorage.setItem('reduxState', JSON.stringify(updatedState));
+
+  return updatedState;
 };
+
 
 export default reducer;

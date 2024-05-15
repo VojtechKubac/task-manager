@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import Container from "react-bootstrap/esm/Container";
+import React  from "react";
+import Container from 'react-bootstrap/Container';
 
 const Home = () => {
   return (

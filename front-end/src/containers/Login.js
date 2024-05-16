@@ -4,11 +4,29 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { connect } from "react-redux";
+//import { createSelector } from 'reselect';
+//import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import * as actions from "../store/actions/auth";
 
-const Login = ({ loading, error, onAuth }) => {
+/* TODO: use loading and error later
+const selectLoading = state => state.auth.loading;
+const selectError = state => state.auth.error;
+
+const getState = createSelector(
+  [selectLoading, selectError],
+  (loading, error) => ({
+    loading, error
+  })
+);
+*/
+
+const Login = () => {
+  const dispatch = useDispatch();
+
+  //const {loading, error} = useSelector(getState);
+
   const [formData, setFormData] = useState({ username: '', password: '' });
 
   const handleInputChange = (e) => {
@@ -21,8 +39,7 @@ const Login = ({ loading, error, onAuth }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     try {
-      onAuth(formData.username, formData.password);
-      //const res = onAuth(formData.username, formData.password);
+      dispatch(actions.authLogin(formData.username, formData.password));
       //window.location.href = '/'
     } catch (e)
     {
@@ -31,8 +48,8 @@ const Login = ({ loading, error, onAuth }) => {
 
   return (
     <Container>
-      {error && <p>{error.message}</p>}
-      {/*this.props.loading ? (
+      {/*{error && <p>{error.message}</p>}*/}
+      {/*loading ? (
         //<Spin indicator={antIcon} />
       ) : */(
         <>
@@ -89,19 +106,8 @@ const Login = ({ loading, error, onAuth }) => {
     )}
     </Container>
   );
+
+
 };
 
-const mapStateToProps = state => ({
-    loading: state.auth.loading,
-    error: state.auth.error
-});
-
-const mapDispatchToProps = dispatch => ({
-    onAuth: (username, password) =>
-      dispatch(actions.authLogin(username, password))
-});
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Login);
+export default Login;

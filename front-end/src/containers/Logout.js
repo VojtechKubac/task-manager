@@ -1,38 +1,24 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Container from "react-bootstrap/Container";
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { connect } from "react-redux";
-import { createSelector } from 'reselect';
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 import * as actions from "../store/actions/auth";
 
-const selectUserName = state => state.auth.username;
+const Logout = () => {
+  const username = useSelector((state) => state.auth.username);
+  const dispatch = useDispatch();
 
-const getUserName = createSelector(
-  [selectUserName],
-  (username) => ({username})
-);
-
-//const Logout = ({user, onLogout }) => {
-const Logout = ({onLogout }) => {
-  const handleLogout = () => onLogout();
-
-  const {username} = useSelector(getUserName);
-
-  useEffect(() => {
-    console.log('useEffect');
-    if (username) {
-      console.log('set');
-      localStorage.setItem('authUser', username);
+  const handleLogout = (e) => {
+    try {
+      dispatch(actions.logout());
+    } catch (e)
+    {
     }
-  }, [username]);
-
-  console.log('logout');
-  //console.log(user);
-  console.log(username);
+  };
 
   return (
     <Container>
@@ -59,8 +45,7 @@ const Logout = ({onLogout }) => {
           <input
             type="text"
             id="username"
-            //value={username ? username : 'no user'}
-            value={localStorage.getItem('authUser') ? localStorage.getItem('authUser') : 'no user'}
+            value={username ? username : 'no user'}
             readOnly
           />
         </Col>
@@ -72,12 +57,4 @@ const Logout = ({onLogout }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-    onLogout: () =>
-      dispatch(actions.logout())
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Logout);
+export default Logout;

@@ -26,11 +26,17 @@ export const getTasks = (token) => async (dispatch) => {
   try {
     dispatch(getTasksListStart());
 
-    axiosInstance.defaults.headers.common['Authorization'] = 'Token ' + token;
+    if (token)
+    {
+      axiosInstance.defaults.headers.common['Authorization'] = 'Token ' + token;
 
-    const res = await axiosInstance.get("/tasks/");
-    const tasks = res.data;
-    dispatch(getTasksListSuccess(tasks));
+      const res = await axiosInstance.get("/tasks/");
+      const tasks = res.data;
+      dispatch(getTasksListSuccess(tasks));
+    }
+    else{
+      dispatch(getTasksListFail());
+    }
   } catch (err) {
     dispatch(getTasksListFail());
   }

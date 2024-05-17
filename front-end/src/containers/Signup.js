@@ -4,20 +4,21 @@ import Form from 'react-bootstrap/Form';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
-import { connect } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import * as actions from "../store/actions/auth";
 
-const Signup = ({ onAuth }) => {
+const Signup = () => {
+  const dispatch = useDispatch();
+
   const [formData, setFormData] = useState({
       username: '',
       email: '',
-      password1: '',
-      password2: '',
+      password: '',
+      confirmPassword: '',
    });
 
   const [error, setError] = useState('');
-
 
   const handleInputChange = (e) => {
     setFormData({
@@ -27,7 +28,6 @@ const Signup = ({ onAuth }) => {
   };
 
   const handleSubmit = (event) => {
-    console.log('handle submit')
     event.preventDefault();
 
     // Validate email format
@@ -37,15 +37,13 @@ const Signup = ({ onAuth }) => {
       return;
     }
 
-    if (formData.password1 !== formData.password2) {
+    if (formData.password !== formData.confirmPassword) {
       setError('Passwords do not match');
     } else {
       // Passwords match, proceed with form submission or further processing
       setError('');
-      console.log('form inputs ok')
       try {
-        const res = onAuth(formData.username, formData.email, formData.password1);
-        console.log(res)
+        dispatch(actions.authSignup(formData.username, formData.email, formData.password));
         //window.location.href = '/'
       } catch (e)
       {
@@ -109,14 +107,14 @@ const Signup = ({ onAuth }) => {
                 size="lg"
                 maxLength={30}
                 style={{ maxWidth: '300px' }}
-                value={formData.password1}
-                name="password1"
+                value={formData.password}
+                name="password"
                 onChange={handleInputChange}
                 required
               />
             </Col>
         </Form.Group>
-        <Form.Group as={Row} controlId="formBasicPassword">
+        <Form.Group as={Row} controlId="formBasicPasswordConfirmation">
           <Form.Label column sm={3}>Confirm password</Form.Label>
             <Col sm={9}>
               <Form.Control
@@ -125,13 +123,12 @@ const Signup = ({ onAuth }) => {
                 size="lg"
                 maxLength={30}
                 style={{ maxWidth: '300px' }}
-                value={formData.password2}
-                name="password2"
+                value={formData.confirmPassword}
+                name="confirmPassword"
                 onChange={handleInputChange}
               />
             </Col>
         </Form.Group>
-
 
         {error && <p style={{ color: 'red' }}>{error}</p>}
 
@@ -143,12 +140,4 @@ const Signup = ({ onAuth }) => {
   );
 };
 
-const mapDispatchToProps = dispatch => ({
-    onAuth: (username, email, password) =>
-      dispatch(actions.authSignup(username, email, password))
-});
-
-export default connect(
-  null,
-  mapDispatchToProps
-)(Signup);
+export default Signup;

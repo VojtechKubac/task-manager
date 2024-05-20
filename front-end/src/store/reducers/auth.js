@@ -3,7 +3,7 @@ import { updateObject } from "../utility";
 
 const storedState = JSON.parse(localStorage.getItem('reduxState'));
 
-const initialState = storedState ? storedState : {
+export const initialState = storedState ? storedState : {
   token: null,
   username: null,
   //userId: null,

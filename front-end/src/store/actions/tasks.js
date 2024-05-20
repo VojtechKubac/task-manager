@@ -1,36 +1,41 @@
 import axiosInstance from "./axiosConfig";
 import * as actionTypes from "./actionTypes";
 
-const getTasksListStart = () => {
+export const getTasksListStart = () => {
   return {
     type: actionTypes.GET_TASKS_LIST_START
   };
 };
 
-const getTasksListFail = (error) => {
+export const getTasksListFail = (error) => {
   return {
     type: actionTypes.GET_TASKS_LIST_FAIL,
     error: error
   };
 };
 
-const getTasksListSuccess = (tasks) => {
+export const getTasksListSuccess = (tasks) => {
   return {
     type: actionTypes.GET_TASKS_LIST_SUCCESS,
     tasks
   };
 };
 
-// TODO: do authentication
 export const getTasks = (token) => async (dispatch) => {
   try {
     dispatch(getTasksListStart());
 
-    axiosInstance.defaults.headers.common['Authorization'] = 'Token ' + token;
+    if (token)
+    {
+      axiosInstance.defaults.headers.common['Authorization'] = 'Token ' + token;
 
-    const res = await axiosInstance.get("/tasks/");
-    const tasks = res.data;
-    dispatch(getTasksListSuccess(tasks));
+      const res = await axiosInstance.get("/tasks/");
+      const tasks = res.data;
+      dispatch(getTasksListSuccess(tasks));
+    }
+    else{
+      dispatch(getTasksListFail());
+    }
   } catch (err) {
     dispatch(getTasksListFail());
   }

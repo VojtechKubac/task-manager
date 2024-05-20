@@ -25,7 +25,8 @@ const getTasksListSuccess = (state, action) => {
 const getTasksListFail = (state, action) => {
   return updateObject(state, {
     error: action.error,
-    loading: false
+    loading: false,
+    tasks: []
   });
 };
 

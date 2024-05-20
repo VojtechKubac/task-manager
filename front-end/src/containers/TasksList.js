@@ -1,43 +1,24 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { createSelector } from 'reselect';
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import ListGroup from "react-bootstrap/ListGroup";
 import * as actions from "../store/actions/tasks";
 
-const selectToken = state => state.auth.token;
-const selectTasks = state => state.tasks.tasks;
-//const selectLoading = state => state.tasks.loading;
-
-// create selector with memoization to prevent unncessary operations
-const getTasksList = createSelector(
-  [selectToken, selectTasks/*, selectLoading*/],
-  (token, tasks/*, loading*/) => ({
-    token,
-    tasks,
-    //loading,
-  })
-);
-
 const TasksList = () => {
   const dispatch = useDispatch();
 
-  const { token, tasks/*, loading*/ } = useSelector(getTasksList);
+  const token = useSelector((state) => state.auth.token);
+  const tasks = useSelector((state) => state.tasks.tasks);
 
   useEffect(() => {
-    if (token) {
-      localStorage.setItem('authToken', token);
+    try{
+      dispatch(actions.getTasks(token));
+    } catch (e)
+    {
     }
-  }, [token]);
-
-  useEffect(() => {
-    const storedToken = localStorage.getItem('authToken');
-    if (storedToken) {
-      dispatch(actions.getTasks(storedToken));
-    }
-  }, [dispatch]);
+  }, [dispatch, token]);
 
   return (
     <Container>
